@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>居家力量十二周</title>
+<meta name="description" content="一对可调哑铃、一张瑜伽垫、一根迷你弹力带的 12 周居家三分化计划：练三休一，每次约 70 分钟，手臂和腹部优先。每个动作配循环示范动画，可在本机打卡记录。">
+<meta name="theme-color" content="#F3F5F4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F1513" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="居家力量">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+/* 离线版：不加载网络字体，数字和标题用系统字体（iPhone 上是 DIN Alternate 和苹方）。
+   Layout：单栏训练手册（最宽 1080px），从“怎么排 → 怎么变强 → 今天练 → 动作库 → 吃与动 → 记录”往下翻；训练卡片左图右文，手机上上下堆叠 */
+:root{
+  --bg:#F3F5F4; --surface:#FFFFFF; --surface-2:#E8EEEB; --ink:#17211F; --muted:#56635F; --line:#D3DCD8;
+  --accent:#0B7A63; --accent-ink:#FFFFFF; --accent-soft:#DDEFE8; --warn:#B4441F;
+  --band:#E0A019; --hl:#E0573A; --hl-far:#F1A894;
+  --fig:#1F2B28; --fig-far:#9AA8A4; --ghost:#D8DFDC; --iron:#3A4542; --iron-hub:#9AA5A2;
+  --mat:#A3D4C4; --furn:#E1E7E4; --furn-ink:#66736F; --trace:#0B7A63;
+  --f-display:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --f-body:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;
+  --f-num:"Barlow Condensed","DIN Alternate","Arial Narrow",sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0F1513; --surface:#171F1D; --surface-2:#1F2927; --ink:#E5ECE9; --muted:#9AA9A5; --line:#2C3835;
+  --accent:#3BC29E; --accent-ink:#06231B; --accent-soft:#16302A; --warn:#FF8A66;
+  --band:#F0B43A; --hl:#FF7A59; --hl-far:#8E4434;
+  --fig:#E3EAE7; --fig-far:#6C7B77; --ghost:#2B3734; --iron:#B5C0BD; --iron-hub:#56635F;
+  --mat:#245246; --furn:#25302D; --furn-ink:#93A29E; --trace:#3BC29E; color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --bg:#0F1513; --surface:#171F1D; --surface-2:#1F2927; --ink:#E5ECE9; --muted:#9AA9A5; --line:#2C3835;
+  --accent:#3BC29E; --accent-ink:#06231B; --accent-soft:#16302A; --warn:#FF8A66;
+  --band:#F0B43A; --hl:#FF7A59; --hl-far:#8E4434;
+  --fig:#E3EAE7; --fig-far:#6C7B77; --ghost:#2B3734; --iron:#B5C0BD; --iron-hub:#56635F;
+  --mat:#245246; --furn:#25302D; --furn-ink:#93A29E; --trace:#3BC29E; color-scheme:dark; }
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+body{background:var(--bg);color:var(--ink);font:15px/1.7 var(--f-body);-webkit-text-size-adjust:100%}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.25;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:var(--accent)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+
+/* 顶栏 */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:16px;
+  padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.brand{font-family:var(--f-display);font-weight:900;white-space:nowrap}
+.brand b{font-family:var(--f-num);font-weight:700;color:var(--accent);font-size:1.15em}
+.nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+.nav::-webkit-scrollbar{display:none}
+.nav a{color:var(--muted);text-decoration:none;padding:4px 10px;border-radius:99px;white-space:nowrap;font-size:14px}
+.nav a:hover{background:var(--surface-2);color:var(--ink)}
+
+.wrap{max-width:1080px;margin:0 auto;padding-block:8px 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+section{padding-top:56px}
+.sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.sec-h h2{font-size:clamp(24px,3.4vw,32px);font-weight:900}
+.sec-k{font-family:var(--f-num);font-weight:700;font-size:15px;color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.sec-lead{color:var(--muted);max-width:62ch;margin-bottom:20px}
+.eyebrow{font-size:13px;letter-spacing:.08em;color:var(--accent);font-weight:600}
+
+/* 首屏 */
+.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:28px;align-items:center;padding-top:32px}
+.hero h1{font-size:clamp(40px,7vw,72px);font-weight:900;letter-spacing:-.01em;margin:6px 0 14px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.lead{font-size:17px;max-width:40ch}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:22px 0}
+.fact{border-top:2px solid var(--ink);padding-top:6px}
+.fact .num{display:block;font-size:34px;font-weight:700;line-height:1.1}
+.fact span:last-child{font-size:13px;color:var(--muted)}
+.cta{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--accent-ink);text-decoration:none;
+  font-weight:600;padding:10px 18px;border-radius:99px}
+.cta:hover{filter:brightness(1.08)}
+.hero-fig{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 12px 6px}
+.hero-fig .fig-cap{border-top:0}
+
+/* 每周安排 */
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-bottom:18px}
+.wd{border-radius:var(--r);padding:10px 8px;background:var(--surface);border:1px solid var(--line);min-height:96px;display:flex;flex-direction:column;gap:2px}
+.wd small{color:var(--muted);font-size:12px}
+.wd strong{font-family:var(--f-num);font-size:30px;line-height:1.05}
+.wd span{font-size:13px;line-height:1.4}
+.wd.train{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.wd.train small{color:inherit;opacity:.8}
+.wd-x{font-style:normal}
+.wd.walk strong{font-family:var(--f-display);font-size:18px;font-weight:700;padding-block:6px 4px}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.two > *{min-width:0}
+.prose p + p{margin-top:10px}
+.prose{max-width:62ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.card h3{font-size:17px;margin-bottom:8px}
+.ticks{margin:0;padding-left:1.2em}
+.ticks li + li{margin-top:6px}
+.assume li::marker{color:var(--accent)}
+
+/* 阶段时间线 */
+.phases{display:grid;grid-template-columns:4fr 4fr 3fr 1.6fr;gap:6px;margin-bottom:20px}
+.ph{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;min-width:0}
+.ph .num{color:var(--accent);font-weight:700;font-size:15px}
+.ph h3{font-size:16px;margin:2px 0 6px}
+.ph p{font-size:13px;color:var(--muted);line-height:1.6}
+.ladder{counter-reset:l;list-style:none;margin:0;padding:0}
+.ladder li{counter-increment:l;display:grid;grid-template-columns:28px 1fr;gap:8px;padding:7px 0;border-top:1px dashed var(--line)}
+.ladder li:first-child{border-top:0}
+.ladder li::before{content:counter(l);font-family:var(--f-num);font-weight:700;font-size:18px;color:var(--accent)}
+.legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:20px}
+.legend dt{font-weight:700}
+.legend dd{margin:2px 0 0;color:var(--muted);font-size:14px}
+.pu-line{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
+.pu-step{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:8px 10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.pu-step.cur{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.pu-lv{font-family:var(--f-num);font-weight:700;color:var(--accent);font-size:14px}
+.pu-n{font-size:15px}
+.pu-r{font-size:13px;color:var(--muted);flex:1}
+.pu-set{margin-top:6px;border:1px solid var(--line);background:var(--surface-2);border-radius:99px;padding:4px 10px;font-size:13px;cursor:pointer}
+.pu-set[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.arrow{color:var(--muted)}
+
+/* 训练：选周、选日 */
+.picker{display:flex;flex-wrap:wrap;gap:14px 18px;margin-bottom:12px}
+.wk-grp{display:flex;flex-direction:column;gap:4px}
+.wk-ph{font-size:12px;color:var(--muted)}
+.wk-row{display:flex;gap:3px}
+.wk-btn{width:38px;height:46px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:0}
+.wk-n{font-family:var(--f-num);font-weight:700;font-size:20px;line-height:1}
+.wk-dots{display:flex;gap:3px}
+.wk-dots i{width:5px;height:5px;border-radius:50%;background:var(--line)}
+.wk-dots i.on{background:var(--accent)}
+.wk-btn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.wk-btn[aria-pressed="true"] .wk-dots i.on{background:var(--mat)}
+.days{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:18px}
+.day-btn{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:10px 12px;text-align:left;cursor:pointer;display:flex;flex-direction:column}
+.day-l{font-family:var(--f-display);font-weight:900;font-size:18px}
+.day-s{font-size:13px;color:var(--muted)}
+.day-btn[aria-selected="true"]{border-color:var(--accent);box-shadow:inset 0 -3px 0 var(--accent)}
+.day-hd{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.day-title{font-size:26px;font-weight:900}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font-size:13px;padding:2px 10px;border-radius:99px;background:var(--accent-soft);color:var(--ink)}
+.day-goal{max-width:70ch}
+.day-focus{font-weight:600;color:var(--accent)}
+.ex-note{font-size:14px;background:var(--accent-soft);border-radius:8px;padding:6px 10px;max-width:70ch}
+.vol{display:flex;flex-direction:column;gap:7px;margin-top:6px}
+.vol-row{display:grid;grid-template-columns:5.2em minmax(0,1fr) 3.6em;align-items:center;gap:10px;font-size:14px}
+.vol-l{display:flex;align-items:baseline;gap:6px;white-space:nowrap}
+.vol-l small{font-size:11px;color:var(--muted)}
+.vol-t{height:12px;display:block}
+.vol-t i{display:block;height:100%;min-width:2px;border-radius:0 4px 4px 0;background:var(--fig-far)}
+.vol-row.key .vol-t i{background:var(--accent)}
+.vol-n{text-align:right;font-size:16px;font-weight:600}
+.vol-cap{font-size:13px;color:var(--muted);margin-top:8px}
+.cycle{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:12px}
+.cycle .wd{min-height:0}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin:8px 0 18px;font-size:12px}
+.cal span{border-radius:6px;padding:6px 4px;text-align:center;background:var(--surface);border:1px solid var(--line);line-height:1.35}
+.cal span b{display:block;font-weight:600;color:var(--muted);font-size:11px}
+.cal span.t{background:var(--accent-soft);border-color:transparent}
+.cal span.rest{color:var(--muted)}
+.cal-h{font-size:13px;color:var(--muted)}
+.today{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;margin-bottom:14px;font-size:14px}
+.today label{font-weight:600}
+.today input{padding:5px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg)}
+#today-msg{color:var(--muted);flex:1 1 220px;min-width:0}
+.today button{border:0;background:var(--accent);color:var(--accent-ink);border-radius:99px;padding:6px 14px;cursor:pointer;font-weight:600}
+.day-btn.rest .day-l{color:var(--muted)}
+.rest-card{margin:4px 0 0;max-width:70ch}
+.day-note{max-width:70ch;background:var(--surface);border-left:3px solid var(--band);padding:8px 12px;border-radius:0 8px 8px 0}
+
+/* 热身、放松 */
+.flow{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);margin:14px 0}
+.flow summary{cursor:pointer;padding:12px 16px;display:flex;align-items:baseline;gap:10px;list-style:none}
+.flow summary::-webkit-details-marker{display:none}
+.flow summary::before{content:"＋";color:var(--accent);font-weight:700}
+.flow[open] summary::before{content:"－"}
+.flow-t{font-family:var(--f-display);font-weight:900;font-size:17px}
+.flow-d{color:var(--muted);font-size:14px}
+.flow-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;padding:0 16px 8px}
+.flow-it{min-width:0}
+.flow-n{font-weight:600;font-size:14px;line-height:1.4}
+.flow-r{font-size:13px;color:var(--muted)}
+.flow-tip{padding:0 16px 14px;font-size:14px;color:var(--muted)}
+.flow-g{padding:4px 16px 6px;font-size:13px;font-weight:700;color:var(--accent)}
+.flow-grid + .flow-g{padding-top:8px}
+
+/* 训练动作卡 */
+.ex-list{display:flex;flex-direction:column;gap:12px}
+.ss-hd{font-size:14px;color:var(--muted);margin-top:8px;padding-left:10px;border-left:3px solid var(--accent)}
+.ex,.fin{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px}
+.ex{display:grid;grid-template-columns:230px minmax(0,1fr);gap:18px}
+.ex-body{min-width:0;display:flex;flex-direction:column;gap:10px}
+.ex-top{display:flex;align-items:center;gap:10px}
+.ex-tag{font-family:var(--f-num);font-weight:700;font-size:16px;min-width:32px;height:28px;padding:0 6px;border-radius:6px;
+  background:var(--ink);color:var(--bg);display:inline-flex;align-items:center;justify-content:center}
+.ex-name{font-size:19px;font-weight:900}
+.rx{display:flex;flex-wrap:wrap;gap:6px 22px;margin:0}
+.rx dt{font-size:12px;color:var(--muted)}
+.rx dd{margin:0;font-family:var(--f-num);font-weight:600;font-size:18px;line-height:1.3}
+.ex-mus{font-size:14px;color:var(--muted)}
+.more summary{cursor:pointer;font-size:14px;color:var(--accent);font-weight:600}
+.more[open] summary{margin-bottom:6px}
+.more-h{font-size:13px;font-weight:700;margin-top:4px}
+.err-h{color:var(--warn)}
+.cues,.errs{margin:2px 0 4px;padding-left:1.2em;font-size:14px;line-height:1.6}
+.errs li::marker{content:"✕  ";color:var(--warn)}
+.pu-pick{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:14px;color:var(--muted)}
+.pu-pick select{padding:4px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);max-width:100%}
+.log{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:10px}
+.log-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.log-n{font-size:13px;color:var(--muted);width:3.6em}
+.log-f{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:var(--muted)}
+.log-f input{width:4.6em;padding:5px 6px;border:1px solid var(--line);border-radius:6px;background:var(--bg);font-family:var(--f-num);font-size:17px;font-variant-numeric:tabular-nums}
+.log-ok{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:transparent;cursor:pointer;color:var(--muted)}
+.log-ok[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.log-row.ok .log-n{color:var(--accent);font-weight:600}
+.ex-last{font-size:13px;color:var(--muted);font-family:var(--f-num),var(--f-body);font-variant-numeric:tabular-nums}
+.fin{border-style:dashed;border-color:var(--accent)}
+.fin-desc{color:var(--muted);font-size:14px;margin:6px 0 10px;max-width:70ch}
+.fin-grid{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:12px;max-width:calc(var(--n,3) * 240px)}
+.fin-it{min-width:0}
+.fin-n{font-weight:700;font-size:14px}
+.fin-r{font-family:var(--f-num);font-size:16px;font-weight:600}
+.fin-log{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:14px;color:var(--muted);flex-wrap:wrap}
+.fin-log input{padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);width:12em;max-width:100%}
+.done-btn{margin-top:18px;width:100%;padding:14px;border-radius:12px;border:2px solid var(--accent);background:var(--accent);color:var(--accent-ink);
+  font-weight:700;font-size:16px;cursor:pointer}
+.done-btn.is-done{background:transparent;color:var(--accent)}
+
+/* 动画 */
+.fig{display:flex;flex-direction:column}
+.fig-stage{background:var(--bg);border-radius:8px;cursor:pointer;aspect-ratio:240/212;max-width:100%}
+.fig-cap{display:flex;align-items:center;justify-content:space-between;gap:6px;padding-top:6px;min-height:32px}
+.fig-lbl{font-size:13px;line-height:1.35;color:var(--ink);font-weight:600}
+.fig-btn{border:1px solid var(--line);background:transparent;border-radius:99px;font-size:12px;padding:2px 10px;cursor:pointer;color:var(--muted);flex:none}
+.fig-svg{display:block;width:100%;height:100%}
+.fig-svg .seg{stroke:var(--fig);stroke-width:9;stroke-linecap:round;fill:none}
+.fig-svg .seg.arm{stroke-width:8}
+.fig-svg .seg.foot{stroke-width:6.5}
+.fig-svg .seg.far{stroke:var(--fig-far)}
+.fig-svg .seg.hl{stroke:var(--hl)}
+.fig-svg .seg.far.hl{stroke:var(--hl-far)}
+.fig-svg .torso{stroke:var(--fig);stroke-width:16;stroke-linecap:round;fill:none}
+.fig-svg .torso.front{fill:var(--fig);stroke-width:7;stroke-linejoin:round}
+.fig-svg .hl-ov{stroke:var(--hl);stroke-width:16;stroke-linecap:round;fill:none}
+.fig-svg .hl-dot{fill:var(--hl)}
+.fig-svg .head{fill:var(--fig)}
+.fig-svg .eye{fill:var(--bg)}
+.fig-svg .ghost .seg,.fig-svg .ghost .torso{stroke:var(--ghost)}
+.fig-svg .ghost .torso.front,.fig-svg .ghost .head{fill:var(--ghost)}
+.fig-svg .trace{fill:none;stroke:var(--trace);stroke-width:1.6;stroke-dasharray:3 4;opacity:.75}
+.fig-svg .floor{stroke:var(--line);stroke-width:1.5}
+.fig-svg .mat{fill:var(--mat)}
+.fig-svg .box,.fig-svg .post{fill:var(--furn)}
+.fig-svg .box-lbl{fill:var(--furn-ink);font-size:10px;font-family:var(--f-body)}
+.fig-svg .db-plate{fill:var(--iron)}
+.fig-svg .db-hub,.fig-svg .db-handle{fill:var(--iron-hub)}
+.fig-svg .band{stroke:var(--band);stroke-width:5;stroke-linecap:round;fill:none}
+
+/* 动作库 */
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:4px 14px;cursor:pointer;font-size:14px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.lib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.lib-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.lib-top{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.lib-top h4{font-size:17px}
+.cat{font-size:12px;color:var(--muted);white-space:nowrap}
+
+/* 饮食、安全、记录 */
+.scroll{overflow-x:auto;max-width:100%}
+.tbl,.chk{border-collapse:collapse;width:100%;font-size:14px}
+.tbl th,.tbl td,.chk th,.chk td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:middle}
+.tbl th{font-weight:600}
+.tbl tr:first-child th,.chk tr:first-child th{font-size:12px;color:var(--muted);font-weight:600}
+.tbl td.n{font-family:var(--f-num);font-size:17px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl input{width:100%;min-width:5.5em;padding:5px 6px;border:1px solid var(--line);border-radius:6px;background:var(--bg);font-family:var(--f-num);font-size:16px}
+.chk th,.tbl th{white-space:nowrap;font-weight:600}
+.tbl th{white-space:normal}
+.tbl td:first-child,.tbl tr th:first-child{white-space:nowrap}
+.chk-b{width:100%;min-width:5.5em;height:34px;border:1.5px dashed var(--line);background:transparent;border-radius:8px;cursor:pointer;font-size:13px;color:var(--accent-ink)}
+.chk-b[aria-pressed="true"]{background:var(--accent);border:1.5px solid var(--accent)}
+.grid-sum{font-family:var(--f-num);font-size:22px;font-weight:700;margin:4px 0 10px}
+.meal{display:grid;grid-template-columns:4.5em 1fr auto;gap:4px 12px;font-size:14px}
+.meal b{font-weight:600}
+.meal .num{text-align:right;font-size:17px}
+.meal .tot{border-top:1px solid var(--ink);padding-top:4px;font-weight:700}
+.note{font-size:13px;color:var(--muted);margin-top:14px;max-width:70ch}
+.safety{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.safety .card p{font-size:14px;color:var(--muted)}
+.bk{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:6px 14px;cursor:pointer;font-size:14px}
+.btn.danger{color:var(--warn)}
+#bk-text{width:100%;min-height:80px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:8px;font-size:12px;font-family:ui-monospace,Menlo,monospace}
+#bk-msg{font-size:14px;color:var(--accent);min-height:1.5em}
+footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+
+@media (max-width: 860px){
+  .hero{grid-template-columns:1fr}
+  .hero-fig{max-width:420px}
+  .phases{grid-template-columns:1fr 1fr}
+  .pu-line{grid-template-columns:1fr 1fr}
+  .legend{grid-template-columns:1fr}
+  .two{grid-template-columns:1fr}
+}
+@media (max-width: 640px){
+  body{font-size:15px}
+  .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .week{gap:4px}
+  .wd{padding:8px 4px;min-height:84px}
+  .wd strong{font-size:24px}
+  .wd span{font-size:11.5px}
+  .wd.walk strong{font-size:14px}
+  .day-btn{padding:8px 8px}
+  .day-s{font-size:11.5px;line-height:1.35}
+  .wd-x{display:none}
+  .flow-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ex{grid-template-columns:1fr;gap:10px}
+  .fin-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ex-fig{max-width:300px;width:100%;margin:0 auto}
+  .picker{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px}
+  .nav a{padding:4px 7px}
+  .brand{display:none}
+  .nav{margin-left:0}
+}
+
+/* 离线版：手机主屏幕应用 */
+:root{--sbar:#17211F}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--sbar:#0F1513} }
+:root[data-theme="dark"]{--sbar:#0F1513}
+html{scroll-padding-top:calc(64px + env(safe-area-inset-top,0px))}
+body{margin:0;padding-top:env(safe-area-inset-top,0px)}
+/* iPhone 主屏幕应用的状态栏是透明的、文字固定白色，垫一条深色底保证看得清；浏览器里这条高度为 0 */
+body::before{content:"";position:fixed;z-index:30;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);background:var(--sbar)}
+@supports not (background:color-mix(in srgb,red 50%,blue)){ .top{background:var(--bg)} }
+.wrap{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
+.vol-row{cursor:pointer}
+.btn.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+.mig{margin-top:16px;background:var(--accent-soft);border:1px solid var(--accent);border-radius:12px;padding:14px 16px}
+.mig h2{font-size:19px;font-weight:900;margin-bottom:4px}
+.mig h3{font-size:16px;margin-top:10px}
+.mig ol{margin:4px 0 0;padding-left:1.3em}
+.mig li + li{margin-top:4px}
+.mig .bk{margin:12px 0 0}
+.bk-ask{background:var(--surface);border:1px solid var(--warn);border-radius:12px;padding:12px 14px;margin:6px 0 10px}
+.bk-ask .bk{margin-bottom:0}
+.bk-how{margin-top:6px}
+.bk-how li + li{margin-top:2px}
+/* iPhone 上输入框字号小于 16px 时，一点就会自动放大页面 */
+@media (max-width: 640px){
+  .today input,.fin-log input,.pu-pick select,#bk-text{font-size:16px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <span class="brand">居家力量 <b>12</b> 周</span>
+    <nav class="nav" aria-label="页面导航">
+      <a href="#week">安排</a><a href="#progress">进阶</a><a href="#train">训练</a><a href="#moves">动作</a><a href="#food">饮食</a><a href="#safety">安全</a><a href="#log">记录</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <aside class="mig" id="mig" hidden aria-labelledby="mig-h">
+    <h2 id="mig-h">第一次打开？先做这两件事</h2>
+    <div id="mig-install">
+      <h3>1. 装到主屏幕</h3>
+      <ol>
+        <li>在 Safari 里点「分享」按钮（底部的方框加向上箭头；没看到就先点「⋯」），往下找到「添加到主屏幕」，点「添加」。</li>
+        <li>以后从主屏幕上的「居家力量」图标打开，断网也能用。</li>
+        <li>主屏幕应用和 Safari 里的记录是分开存的，下面的旧记录也请在主屏幕应用里恢复。</li>
+      </ol>
+    </div>
+    <div id="mig-move">
+      <h3><span id="mig-n">2. </span>把之前的记录搬过来</h3>
+      <ol>
+        <li>打开之前用的网页版「居家力量十二周」（在哪台设备上练的就在哪台上打开），点顶部「记录」，拉到最下面点「复制全部记录」。</li>
+        <li>把复制的内容发到这台手机：粘贴到「备忘录」，或者用微信发给自己。</li>
+        <li>在手机上长按那段文字，全选、拷贝，然后点下面的「去粘贴记录」，粘贴进恢复框，再点「用文本框里的内容恢复」。</li>
+      </ol>
+    </div>
+    <div class="bk">
+      <button class="btn pri" type="button" id="mig-paste">去粘贴记录</button>
+      <button class="btn" type="button" id="mig-off">知道了，不再提示</button>
+    </div>
+  </aside>
+  <section class="hero" id="top">
+    <div>
+      <p class="eyebrow">三分化 · 练三休一 · 手臂和腹部优先 · 不跳跃</p>
+      <h1>居家力量<em>十二周</em></h1>
+      <p class="lead">给刚开始练的你：一对可调哑铃、一张瑜伽垫、一根迷你弹力带，三分化、练三休一，每次约 70 分钟。<b>重点练手臂和腹部</b>，其次是胸、肩、背，腿作为辅助。所有动作都不跳、不砸地，楼下听不到。</p>
+      <div class="facts">
+        <div class="fact"><span class="num">3+1</span><span>练三天休一天，不看星期几</span></div>
+        <div class="fact"><span class="num">≈70</span><span>分钟 / 次，含热身放松</span></div>
+        <div class="fact"><span class="num">21</span><span>轮，约 12 周、3 个阶段</span></div>
+        <div class="fact"><span class="num">0</span><span>跳跃和落地冲击</span></div>
+      </div>
+      <a class="cta" href="#train" data-go="1">从第 1 轮第 1 天开始 →</a>
+    </div>
+    <div class="hero-fig" id="hero-fig" aria-label="哑铃弯举示范动画"></div>
+  </section>
+
+  <section id="week">
+    <div class="sec-h"><span class="sec-k">01</span><h2>怎么排：三分化，练三休一</h2></div>
+    <p class="sec-lead">4 天是一轮：第 1 天练背和二头，第 2 天练腿和肩，第 3 天练胸和三头，第 4 天休息，然后开始下一轮。21 轮大约是 12 周。</p>
+    <div class="cycle">
+      <div class="wd train"><small>第 1 天</small><strong>背</strong><span>二头<em class="wd-x"> · 顺带三头 · 核心稳定</em></span></div>
+      <div class="wd train"><small>第 2 天</small><strong>腿</strong><span>肩<em class="wd-x"> · 腹斜肌 · 全身收尾</em></span></div>
+      <div class="wd train"><small>第 3 天</small><strong>胸</strong><span>三头<em class="wd-x"> · 顺带二头 · 上下腹</em></span></div>
+      <div class="wd walk"><small>第 4 天</small><strong>休息</strong><span>走路 8000 步以上</span></div>
+    </div>
+    <p class="cal-h">举个例子：如果周一开始，头两周是这样落在日历上的（练三休一不看星期几，会一直往后滚）。</p>
+    <div class="cal" aria-label="两周日历示例">
+      <span class="t"><b>周一</b>背 · 二头</span><span class="t"><b>周二</b>腿 · 肩</span><span class="t"><b>周三</b>胸 · 三头</span><span class="rest"><b>周四</b>休息</span>
+      <span class="t"><b>周五</b>背 · 二头</span><span class="t"><b>周六</b>腿 · 肩</span><span class="t"><b>周日</b>胸 · 三头</span>
+      <span class="rest"><b>周一</b>休息</span><span class="t"><b>周二</b>背 · 二头</span><span class="t"><b>周三</b>腿 · 肩</span><span class="t"><b>周四</b>胸 · 三头</span>
+      <span class="rest"><b>周五</b>休息</span><span class="t"><b>周六</b>背 · 二头</span><span class="t"><b>周日</b>腿 · 肩</span>
+    </div>
+    <div class="two">
+      <div class="prose">
+        <p><b>为什么是这个顺序？</b>手臂是重点，所以二头和三头每轮都练两次：背日顺带练三头，胸日顺带练二头。把腿肩日放在中间，二头（第 1、3 天）和三头（第 3、1 天）之间都隔了整整 48 小时，刚好恢复。腹部三天都练，但每天换一个方向：第 1 天核心稳定，第 2 天腹斜肌，第 3 天上腹和下腹。</p>
+        <p><b>70 分钟怎么分：</b>热身 10 分钟，力量训练 45–50 分钟，放松 7 分钟。前两轮在学动作，组数少，大约 50–55 分钟就能练完；之后会慢慢加到 65–70 分钟。每个训练日上面都写了预计时长，超过 75 分钟就先减最后一个腹部动作的组数。</p>
+        <p>错过一天就从断的地方接着练，不要一天练两次。训练页可以填开始日期，它会算出今天该练哪一天；中断过的话把开始日期往后改几天就行。</p>
+        <p><b>先说实话：</b>腹肌能不能看出来，主要看体脂，线条要靠饮食和走路把体脂降下来。手臂变粗需要吃够蛋白质，热量缺口不要太大。</p>
+      </div>
+      <div class="card">
+        <h3>每轮每个部位练多少组 <span class="num" id="vol-w" style="color:var(--muted);font-weight:600;font-size:15px"></span></h3>
+        <div class="vol" id="vol" role="list"></div>
+        <p class="vol-cap">一轮是 4 天，换算到一周大约再乘 1.75。按训练页里选中的那一轮计算，只算直接练这个部位的动作（不含热身和代谢收尾）；俯卧撑、推举、划船也会顺带练到手臂。点一下每一行（电脑上把鼠标移上去）可以看是哪些动作。</p>
+        <p class="vol-cap" id="vol-pick" role="status"></p>
+        <p class="vol-cap" id="vol-time"></p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:20px">
+      <h3>我做的假设</h3>
+      <ul class="ticks assume">
+        <li><b>哑铃：</b>你发的 FEIERDUN 5 合 1 可调哑铃（45 磅一对）。单只约 2.7–10.2 kg，接上连接杆是约 3.6–20.4 kg 的杠铃。配片规格页面上没写，所以计划里的“加一档”指加上你最小的那对配片，第一次可以用体重秤称一下每片多重。</li>
+        <li><b>起始重量：</b>按完全新手估的。做完一组还能再做 5 次以上就加一档，做不到区间下限就减一档。手臂动作一档一档地加。</li>
+        <li><b>弹力带：</b>环形迷你带，只用在套在膝盖上方的动作（臀桥、侧向走），不需要挂墙或门。</li>
+        <li><b>身体：</b>没有伤病。没问年龄和性别，所以饮食不给固定热量，用每周体重变化来调。</li>
+        <li><b>家里有：</b>一张能靠墙放稳的床或沙发，一个门框（拉伸用）。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="progress">
+    <div class="sec-h"><span class="sec-k">02</span><h2>怎么一点点变强</h2></div>
+    <p class="sec-lead">哑铃最重只有 10 kg 一只，手臂动作很快就会碰到上限，所以不能只靠加重量。12 周分三个阶段，每个阶段换一种加难度的方法。</p>
+    <div class="phases">
+      <div class="ph"><span class="num">第 1–6 轮</span><h3>打基础</h3><p>直组，2 组加到 3–4 组，每组 10–15 次。学会动作，找到起始重量。</p></div>
+      <div class="ph"><span class="num">第 7–13 轮</span><h3>超级组加量</h3><p>两个动作交替做，3–4 组；手臂下放放慢到 3 秒，卷腹抱哑铃；俯卧撑换成上斜；腿肩日加 EMOM。</p></div>
+      <div class="ph"><span class="num">第 14–20 轮</span><h3>手臂强化</h3><p>手臂用“1.5 次”和机械递减组；腹部换仰卧举腿；腿换单侧动作和 AMRAP。</p></div>
+      <div class="ph"><span class="num">第 21 轮</span><h3>减量测试</h3><p>组数减半，第 3 天测试。</p></div>
+    </div>
+    <div class="two">
+      <div class="card">
+        <h3>每个动作怎么加：双进阶</h3>
+        <ol class="ticks">
+          <li>表里给的是次数区间（比如 10–12）。先用同样的重量，把每一组都做到区间上限。</li>
+          <li>所有组都做到上限、动作标准、还留 1–2 次余力，下一次就加一档重量，次数回到区间下限再往上加。</li>
+          <li>加重后连下限都做不到，就退回原重量，多练一轮。</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>哑铃到 10 kg 后，按这个顺序加难度</h3>
+        <ol class="ladder">
+          <li><span><b>放慢下放</b>：从 3 秒放慢到 4 秒</span></li>
+          <li><span><b>加停顿</b>：在最难的位置停 2 秒（深蹲底部、划船顶端）</span></li>
+          <li><span><b>做“1.5 次”</b>：下到底 → 起一半 → 再下到底 → 完全起来，算 1 次</span></li>
+          <li><span><b>机械递减组</b>（手臂）：弯举做到快力竭，马上换更省力的锤式弯举接着做；臂屈伸做到快力竭，马上换窄握卧推</span></li>
+          <li><span><b>换单侧或更难的动作</b>：深蹲 → 分腿蹲，硬拉 → 单腿硬拉，反向卷腹 → 仰卧举腿</span></li>
+          <li><span><b>加一组</b>：主要动作从 3 组加到 4 组</span></li>
+          <li><span><b>缩短休息</b>：每次少 15 秒，最少保留 30 秒</span></li>
+        </ol>
+      </div>
+    </div>
+    <dl class="legend">
+      <div><dt>节奏（秒）</dt><dd>“下 3 · 停 1 · 起 1”就是下放用 3 秒，在底部停 1 秒，再用 1 秒发力回来。重量有限时，放慢下放是最有效的加难度方法之一。</dd></div>
+      <div><dt>余力</dt><dd>一组做完后，还能标准地再做几次。“留 2–3 次余力”就是在还能做 2–3 次的时候停下。</dd></div>
+      <div><dt>超级组、EMOM、AMRAP</dt><dd>超级组：两个动作交替做。EMOM：每分钟一开始做规定次数，剩下的时间休息。AMRAP：在规定时间里能做几轮做几轮。</dd></div>
+    </dl>
+    <h3 style="margin-top:28px;font-size:20px">俯卧撑进阶线</h3>
+    <p class="sec-lead" style="margin:6px 0 0">跪姿和床沿上斜的难度差不多，但上斜练的是标准俯卧撑需要的“从脚到头一条直线”。达到每一级的标准再换下一级，换级后的第一次先做 3 组 × 6–8 次。</p>
+    <div class="pu-line" id="pu-line"></div>
+  </section>
+
+  <section id="train">
+    <div class="sec-h"><span class="sec-k">03</span><h2>训练</h2></div>
+    <p class="sec-lead">选第几轮，再选第几天，跟着动画做。每组做完填上重量和次数、点 ✓，下次同一个动作会显示“上次”的成绩，方便你判断该不该加重。记录只保存在这台手机上，不会上传。动画按演示节奏循环播放，实际的下放、停顿时间以表格里的“节奏”为准。</p>
+    <div class="today">
+      <label for="start-date">第 1 轮第 1 天是哪天</label>
+      <input type="date" id="start-date">
+      <span id="today-msg" role="status"></span>
+      <button type="button" id="today-go" hidden>跳到今天</button>
+    </div>
+    <div class="picker" id="wk" aria-label="选择第几轮"></div>
+    <div class="days" id="days" role="tablist" aria-label="选择第几天"></div>
+    <div id="day"></div>
+  </section>
+
+  <section id="moves">
+    <div class="sec-h"><span class="sec-k">04</span><h2>动作库</h2></div>
+    <p class="sec-lead">所有动作的示范动画。红色是主要发力的肌肉，浅灰色人影是动作的另一端位置，虚线是哑铃或身体的运动轨迹。点动画可以暂停。</p>
+    <div class="chips" id="lib-cats"></div>
+    <div class="lib-grid" id="lib-grid"></div>
+  </section>
+
+  <section id="food">
+    <div class="sec-h"><span class="sec-k">05</span><h2>饮食与日常活动</h2></div>
+    <p class="sec-lead">减脂和增肌同时进行，关键是蛋白质吃够、热量只比平时少一点点，再用走路补上不做有氧的那部分消耗。下面是一般性的建议，不是医疗建议；有慢性病或特殊情况请先问医生或营养师。</p>
+    <div class="two">
+      <div class="card">
+        <h3>热量：轻度缺口，用体重来校准</h3>
+        <ol class="ticks">
+          <li>先照常吃一周，每天早上起床、上完厕所后空腹称重，算出一周平均。</li>
+          <li>目标是每周平均体重下降约 0.2–0.4 kg。按你的身高体重，日常总消耗大概在 2000–2500 kcal（看年龄、性别和活动量），轻度缺口就是每天少吃 200–300 kcal 左右。</li>
+          <li>连续两周没变化：每天少吃约 200 kcal，比如少半碗米饭（约 100–120 kcal）再少一勺炒菜油（约 90 kcal）。</li>
+          <li>一周掉超过 0.7 kg，或训练明显没力气：每天加回 100–200 kcal，优先加主食。</li>
+        </ol>
+        <p class="note">刚开始力量训练的前两周，体重可能不降反升一点（肌肉里存了更多水分和糖原），看腰围和第 3 周之后的趋势。想让手臂长得更明显，缺口宁可小一点（每天少 200 kcal 左右），不要饿着练。</p>
+      </div>
+      <div class="card">
+        <h3>蛋白质：每天约 110–135 g</h3>
+        <p class="note" style="margin:0 0 8px">按每公斤体重 1.6–2.0 g 算（体重 × 1.6–2.0）。分到 3–4 餐，每餐 25–40 g，比集中在一顿更好。</p>
+        <div class="scroll">
+          <table class="tbl">
+            <tr><th>常见食物</th><th>大约蛋白质</th></tr>
+            <tr><td>鸡蛋 1 个</td><td class="n">6 g</td></tr>
+            <tr><td>纯牛奶 250 ml</td><td class="n">8 g</td></tr>
+            <tr><td>无糖希腊酸奶 150 g</td><td class="n">15 g</td></tr>
+            <tr><td>鸡胸肉 100 g（生重）</td><td class="n">23 g</td></tr>
+            <tr><td>瘦牛肉 100 g（生重）</td><td class="n">20 g</td></tr>
+            <tr><td>鱼肉或虾仁 100 g（生重）</td><td class="n">17–20 g</td></tr>
+            <tr><td>北豆腐（老豆腐）100 g</td><td class="n">约 10 g</td></tr>
+            <tr><td>乳清蛋白粉 1 勺（约 30 g，可选）</td><td class="n">20–24 g</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="two" style="margin-top:20px">
+      <div class="card">
+        <h3>一天的例子（约 120 g 蛋白质）</h3>
+        <div class="meal">
+          <b>早餐</b><span>2 个鸡蛋 + 250 ml 牛奶 + 1 片全麦面包</span><span class="num">23 g</span>
+          <b>午餐</b><span>鸡胸肉或瘦肉 150 g + 1 碗米饭 + 一大份蔬菜</span><span class="num">39 g</span>
+          <b>加餐</b><span>希腊酸奶 150 g + 1 个水果（训练前后吃正好）</span><span class="num">15 g</span>
+          <b>晚餐</b><span>鱼或虾 150 g + 北豆腐 100 g + 半碗到一碗饭 + 蔬菜</span><span class="num">42 g</span>
+          <b class="tot">合计</b><span class="tot"></span><span class="num tot">≈ 119 g</span>
+        </div>
+        <p class="note">主食不用全砍，训练日把主食放在训练前后两三个小时内。每餐一拳头以上的蔬菜，每天喝水约 2–2.5 L，睡够 7–9 小时。</p>
+      </div>
+      <div class="card">
+        <h3>用走路代替有氧（日常活动消耗）</h3>
+        <ul class="ticks">
+          <li><b>步数目标：</b>先看手机记录的最近一周日均步数，每周加 1000 步，慢慢加到每天 8000–10000 步。</li>
+          <li><b>选安全的地方：</b>商场、超市、室内步道，或者通勤、上班时多走。在家看剧、打电话时可以穿软底拖鞋慢慢原地踏步，不跺脚就不吵。</li>
+          <li><b>饭后走 10–15 分钟</b>，在家里来回走也算。</li>
+          <li><b>久坐每 45–60 分钟</b>站起来活动 2–3 分钟。</li>
+          <li><b>上楼走楼梯</b>（楼道安全的话），下楼坐电梯对膝盖更友好。</li>
+        </ul>
+        <p class="note">1000 步大约多消耗 30–40 kcal。每天多走 4000 步，大约多消耗 120–160 kcal，和一次轻松的有氧差不多，而且没有噪音。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="safety">
+    <div class="sec-h"><span class="sec-k">06</span><h2>安全与技术要点</h2></div>
+    <p class="sec-lead">新手最常见的问题是太急：重量加太快、动作做太快、热身省掉。下面这些每次都要记得。</p>
+    <div class="safety">
+      <div class="card"><h3>每次先拧紧螺母</h3><p>这款哑铃是螺母锁配片。每次训练前把螺母拧紧，做推举、地板卧推前再检查一次，避免配片滑下来砸到。</p></div>
+      <div class="card"><h3>轻拿轻放</h3><p>不跳、不扔哑铃。放下时先蹲下或坐下，轻放在垫子上。这也是不吵到楼下的关键。</p></div>
+      <div class="card"><h3>床和沙发要稳</h3><p>上斜俯卧撑、单臂划船、分腿蹲用到的床或沙发要靠墙放、不打滑。</p></div>
+      <div class="card"><h3>分清酸和疼</h3><p>肌肉酸胀、第二天酸痛都正常。关节刺痛、发麻、疼痛往别处放射，就停掉这个动作；疼了好几天不缓解，去看医生。</p></div>
+      <div class="card"><h3>呼吸</h3><p>发力时呼气，下放时吸气。可以在最用力的一瞬间短暂屏气稳住核心，但不要整组憋气。</p></div>
+      <div class="card"><h3>第一个月不做到力竭</h3><p>动作标准比次数和重量都重要。每组留 2–3 次余力，录一段视频和动画对比，比感觉更准。</p></div>
+      <div class="card"><h3>地板卧推怎么拿起哑铃</h3><p>先坐在垫子上，把哑铃竖放在大腿上，躺下时顺势带到胸口两侧，再推起。放下时反过来做。</p></div>
+      <div class="card"><h3>护好手肘和腰</h3><p>手臂动作不要甩、不要在最低点猛地锁死手肘。颈后臂屈伸或仰卧臂屈伸让手肘不舒服，就换成俯身臂屈伸。卷腹不要用手拉脖子，举腿时腰离地了就改成屈膝。</p></div>
+      <div class="card"><h3>累了就减量</h3><p>没睡好或特别累的一天，每个动作少做一组，比硬撑或直接不练都好。弹力带用前看看有没有裂口，套在膝盖上方，不要压在膝盖骨上。</p></div>
+    </div>
+  </section>
+
+  <section id="log">
+    <div class="sec-h"><span class="sec-k">07</span><h2>记录</h2></div>
+    <p class="sec-lead">点格子打卡（训练页底部的“完成本次训练”也会自动打卡，一共 21 轮 63 次）。所有记录只存在这台手机上，不会上传；从主屏幕图标打开的应用和 Safari 浏览器里的记录是分开存的，请固定从主屏幕图标打开。删掉这个应用、换手机或清理网站数据之前，用最下面的按钮备份。</p>
+    <p class="grid-sum" id="grid-sum"></p>
+    <div class="two">
+      <div class="scroll" id="grid"></div>
+      <div>
+        <h3 style="font-size:17px;margin-bottom:6px">测试：第 2 轮 vs 第 21 轮</h3>
+        <div class="scroll" id="tests"></div>
+        <h3 style="font-size:17px;margin:20px 0 6px">每周身体数据</h3>
+        <div class="scroll" id="body-log"></div>
+      </div>
+    </div>
+    <h3 style="font-size:17px;margin-top:24px">备份与恢复</h3>
+    <p class="note" style="margin-top:6px">从网页版搬记录：在网页版点「记录 → 复制全部记录」，把内容发到手机（备忘录或微信都行），拷贝后粘贴到下面的文本框，点「用文本框里的内容恢复」。平时隔几次训练也备份一次，存到备忘录里。</p>
+    <div class="bk">
+      <button class="btn" type="button" id="bk-copy">复制全部记录</button>
+      <button class="btn" type="button" id="bk-load">用文本框里的内容恢复</button>
+      <button class="btn danger" type="button" id="bk-clear">清空所有记录</button>
+    </div>
+    <div class="bk-ask" id="bk-ask" hidden>
+      <p><b>这个应用里已经有记录了。</b>要导入的内容怎么处理？</p>
+      <div class="bk">
+        <button class="btn pri" type="button" id="bk-merge">合并</button>
+        <button class="btn danger" type="button" id="bk-replace">替换</button>
+        <button class="btn" type="button" id="bk-cancel">取消</button>
+      </div>
+      <ul class="ticks note bk-how">
+        <li><b>合并</b>：两边的记录都保留；同一次训练（同一轮的同一天）、同一项测试或身体数据两边都有时，用导入的那份。</li>
+        <li><b>替换</b>：删掉这个应用里现在的全部记录，换成导入的内容。</li>
+      </ul>
+    </div>
+    <p id="bk-msg" role="status"></p>
+    <label for="bk-text" class="note" style="display:block;margin:0 0 4px">备份文本（恢复时把之前复制的内容粘贴到这里）</label>
+    <textarea id="bk-text" spellcheck="false"></textarea>
+  </section>
+
+  <footer>
+    这份计划按你提供的情况做了一般性的安排，不是医疗建议。出现持续疼痛、头晕或其他不适，请停止训练并咨询医生。
+    <p style="margin-top:6px">离线版 · <span id="sw-state">正在准备离线缓存…</span></p>
+  </footer>
+</main>
+
+<script src="figure.js"></script>
+<script src="moves1.js"></script>
+<script src="moves2.js"></script>
+<script src="moves3.js"></script>
+<script src="plan.js"></script>
+<script src="app.js"></script>
+<script>Fig.mount(document.getElementById('hero-fig'), MOVES.curl.anim);</script>
+<script>
+/* 离线缓存：注册 service worker，第一次联网打开时把全部文件存下来 */
+(function () {
+  var st = document.getElementById('sw-state');
+  if (!('serviceWorker' in navigator) || !window.isSecureContext) { st.textContent = '离线缓存没有开启（需要用 https 网址打开）'; return; }
+  navigator.serviceWorker.register('sw.js').then(function () { return navigator.serviceWorker.ready; }).then(
+    function () { st.textContent = '已存好全部内容，断网也能打开'; },
+    function () { st.textContent = '离线缓存还没准备好，联网后再打开一次'; });
+})();
+</script>
+</body>
+</html>
