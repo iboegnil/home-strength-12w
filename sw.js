@@ -1,9 +1,9 @@
 /* 离线缓存：第一次联网打开时把全部文件存进缓存，之后断网也能打开。
    改了任何文件都要把 VERSION 加一，手机下次联网打开时会自动换成新版本（记录存在 localStorage，不受影响）。 */
-var VERSION = 'v1';
+var VERSION = 'v2';
 var PREFIX = 'home-strength-12w-';
 var CACHE = PREFIX + VERSION;
-var FILES = ['./', 'index.html', 'figure.js', 'moves1.js', 'moves2.js', 'moves3.js', 'plan.js', 'app.js',
+var FILES = ['./', 'index.html', 'figure.js', 'moves1.js', 'moves2.js', 'moves3.js', 'moves4.js', 'plan.js', 'app.js',
   'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
 // Safari 不接受带重定向标记的缓存页面，存之前去掉

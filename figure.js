@@ -244,6 +244,59 @@
     }
   };
 
+  function Wheel(parent, d) {           // 健腹轮：手握在轮轴上，滚动时轮辐转动
+    this.d = d;
+    this.g = E('g', { 'class': 'wheel' }, parent);
+    E('circle', { 'class': 'wheel-tire', r: 8.5 }, this.g);
+    this.rot = E('g', {}, this.g);
+    E('path', { 'class': 'wheel-spoke', d: 'M0,0L6.5,0M0,0L-3.25,5.63M0,0L-3.25,-5.63' }, this.rot);
+    E('circle', { 'class': 'wheel-hub', r: 2.6 }, this.g);
+  }
+  Wheel.prototype.draw = function (J) {
+    var h = J[this.d.at];
+    this.g.setAttribute('transform', 'translate(' + pt(h) + ')');
+    this.rot.setAttribute('transform', 'rotate(' + (h[0] / 8.5 * 180 / Math.PI).toFixed(1) + ')');
+  };
+
+  /* ---------- 握力器：单独画一只手和握力器的特写 ---------- */
+  function GripFig(stage, def) {
+    var svg = E('svg', { viewBox: VB.join(' '), 'class': 'fig-svg', role: 'img', 'aria-label': def.label || '握力器示范' });
+    stage.appendChild(svg);
+    var F0 = [110, 42], F1 = [84, 182], M0 = [126, 42];
+    this.F0 = F0; this.F1 = F1; this.M0 = M0;
+    this.aOpen = Math.atan2(170 - 42, 176 - 126); this.aClose = Math.atan2(183 - 42, 100 - 126); this.len = 142;
+    var g = E('g', {}, svg);
+    function xf(y) { return F0[0] + (F1[0] - F0[0]) * (y - F0[1]) / (F1[1] - F0[1]); }
+    this.xf = xf;
+    E('line', { 'class': 'grip-fore', x1: xf(170) - 18, y1: 174, x2: 20, y2: 230 }, g);
+    E('path', { 'class': 'grip-hand', d: 'M' + [xf(84) - 34, 84] + 'L' + [xf(84) - 4, 84] + 'L' + [xf(178) - 4, 178] + 'L' + [xf(178) - 34, 178] + 'Z' }, g);
+    E('circle', { 'class': 'grip-coil', cx: 118, cy: 30, r: 13 }, g);
+    E('circle', { 'class': 'grip-coil', cx: 118, cy: 30, r: 6.5 }, g);
+    E('line', { 'class': 'grip-arm', x1: F0[0], y1: F0[1], x2: F1[0], y2: F1[1] }, g);
+    this.mov = E('line', { 'class': 'grip-arm' }, g);
+    E('line', { 'class': 'grip-hand thumb', x1: xf(96) - 22, y1: 98, x2: xf(72) + 8, y2: 72 }, g);
+    this.fingers = [98, 120, 142, 164].map(function (y) { return { y: y, e: E('line', { 'class': 'grip-hand finger' }, g) }; });
+    this.kf = [0, 1, 1, 0];
+    this.durs = [1, 1.2, 2, 0.6];
+    this.lbls = ['用力捏紧 1 秒', '顶峰捏住 1–2 秒', '慢慢松开 2 秒', '手指放松'];
+    this.total = 4.8; this.t = 0; this.lbl = null;
+  }
+  GripFig.prototype.render = function (t) {
+    var i = 0, acc = 0;
+    t = ((t % this.total) + this.total) % this.total;
+    while (i < 3 && acc + this.durs[i] <= t) { acc += this.durs[i]; i++; }
+    var u = ease(Math.min(1, (t - acc) / this.durs[i])), c = this.kf[i] + (this.kf[(i + 1) % 4] - this.kf[i]) * u;
+    var a = this.aOpen + (this.aClose - this.aOpen) * c, M0 = this.M0, len = this.len;
+    var M1 = [M0[0] + Math.cos(a) * len, M0[1] + Math.sin(a) * len];
+    setLine(this.mov, M0, M1);
+    var xf = this.xf;
+    this.fingers.forEach(function (f) {
+      var k = (f.y - M0[1]) / (M1[1] - M0[1]), xm = M0[0] + (M1[0] - M0[0]) * k;
+      setLine(f.e, [xf(f.y) - 10, f.y - 2], [xm + 6, f.y + 3]);
+    });
+    if (this.lbls[i] !== this.lbl) { this.lbl = this.lbls[i]; if (this.onLabel) this.onLabel(this.lbl); }
+  };
+
   /* ---------- 一个动画 ---------- */
   function Figure(stage, def) {
     var self = this;
@@ -257,6 +310,13 @@
     if (def.mat !== false) {
       var m = def.mat || [16, 224];
       E('rect', { 'class': 'mat', x: m[0], y: G, width: m[1] - m[0], height: 4, rx: 2 }, gs);
+    }
+    if (def.board) {                     // 俯卧撑板：一块薄板 + 把手
+      var bd = def.board;
+      E('rect', { 'class': 'pboard', x: bd.x, y: G - 3, width: bd.w, height: 3.5, rx: 1.5 }, gs);
+      (bd.hx || []).forEach(function (x) {
+        E('rect', { 'class': 'phandle', x: x - 6, y: G - 12, width: 12, height: 10, rx: 3 }, gs);
+      });
     }
     if (def.box) {
       var bx = def.box;
@@ -285,6 +345,7 @@
       return /F$/.test(at) ? slots.far : slots.near;
     }
     (def.db || []).forEach(function (d) { self.props.push(new Dumbbell(slotFor(d.at), d)); });
+    (def.wheel || []).forEach(function (d) { self.props.push(new Wheel(slotFor(d.at), d)); });
     (def.band || []).forEach(function (d) {
       var s = def.view === 'front' ? slots.far : (d.kind === 'cuff' ? slots.midN : slots.mid);
       self.props.push(new Band(s, d));
@@ -333,7 +394,7 @@
     var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'fig-btn';
     cap.appendChild(lab); cap.appendChild(btn);
     wrap.appendChild(stage); wrap.appendChild(cap); host.appendChild(wrap);
-    var f = new Figure(stage, def);
+    var f = def.custom === 'gripper' ? new GripFig(stage, def) : new Figure(stage, def);
     f.wrap = wrap;
     f.onLabel = function (t) { lab.textContent = t; };
     f.playing = !reduce; f.visible = !io;

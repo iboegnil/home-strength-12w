@@ -8,8 +8,9 @@
   var DB2 = [{ at: 'handF', kind: 'round' }, { at: 'handN', kind: 'round' }];
   function S(base, extra) { var o = {}, k; for (k in base) o[k] = base[k]; for (k in extra) o[k] = extra[k]; return o; }
 
-  /* 俯卧撑四个级别共用一个生成器：身体绕支点（膝盖或脚尖）转动，双手固定 */
-  function pushup(kind, narrow) {
+  /* 俯卧撑四个级别共用一个生成器：身体绕支点（膝盖或脚尖）转动，双手固定。
+     board = 手握俯卧撑板的把手：手的位置抬高，胸口可以下得更深。 */
+  function pushup(kind, narrow, board) {
     var c = {
       knee: { pivY: 181, len: 90, hand: [150, 184] },
       bed:  { pivY: 176, len: 131, hand: [176, 141], box: { x: 166, w: 74, top: 146, label: '床沿' } },
@@ -17,7 +18,8 @@
       std:  { pivY: 177, len: 131, hand: [164, 184] }
     }[kind];
     // 底部：肩在手掌稍前上方；由此反推支点（膝盖或脚尖）位置
-    var H = c.hand, Sb = [H[0] + 5, H[1] - 14], legLen = kind === 'knee' ? 42 : 83;
+    var H = board ? [c.hand[0], 175] : c.hand;
+    var Sb = [H[0] + 5, H[1] - (board ? 4 : 14)], legLen = kind === 'knee' ? 42 : 83;
     var A = [Sb[0] - Math.sqrt(c.len * c.len - Math.pow(c.pivY - Sb[1], 2)), c.pivY];
     function at(th) { return [A[0] + c.len * Math.cos(th * R), A[1] - c.len * Math.sin(th * R)]; }
     var top = 0, bd = 1e9;
@@ -30,7 +32,8 @@
       var u = [Math.cos(th * R), -Math.sin(th * R)];
       var hip = [A[0] + u[0] * legLen, A[1] + u[1] * legLen];
       var tor = Math.atan2(u[0], u[1]) / R;
-      var p = { hip: hip, tor: tor, aN: { ik: H, b: -1, ls: bottom ? (narrow ? [0.8, 0.95] : [0.45, 0.95]) : [1, 1] } };
+      var lsB = board ? (narrow ? [0.85, 0.95] : [0.76, 0.95]) : (narrow ? [0.8, 0.95] : [0.45, 0.95]);
+      var p = { hip: hip, tor: tor, aN: { ik: H, b: -1, ls: bottom ? lsB : [1, 1] } };
       if (kind === 'knee') p.lN = { a: [tor + 180 - 360, -105], ft: -150 };
       return p;
     }
@@ -38,9 +41,10 @@
     base.hd = 0;
     if (kind !== 'knee') base.lN = { ik: A, b: 1, ft: 60 };
     var low = pose(bot, true);
-    var where = kind === 'bed' ? '胸口碰到床沿' : kind === 'low' ? '胸口碰到凳面' : '胸口离地约一拳';
+    var where = board ? '胸口下到比把手低' : kind === 'bed' ? '胸口碰到床沿' : kind === 'low' ? '胸口碰到凳面' : '胸口离地约一拳';
     return {
       view: 'side', trace: 'shN', hl: narrow ? ['uarm', 'chest'] : ['chest', 'uarm'], box: c.box,
+      board: board ? { x: H[0] - 34, w: 68, hx: [H[0]] } : null,
       base: base,
       kf: [
         S({}, { d: 2, lbl: '身体一条直线，下放 2 秒' }),
@@ -148,14 +152,14 @@
               { hip: [100, 160], tor: -65, hd: 25, lN: { a: [115, 115], ft: 200 }, d: 2, lbl: '慢慢放下 2 秒' },
               { d: 0.4, lbl: '轻触地' } ] }
     },
-    pu_knee: { name: '跪姿俯卧撑', cat: '胸肩', level: 1, mus: PU_MUS,
-      cues: ['双手略宽于肩，从膝盖到头成一条直线', '手肘和身体约 45°，胸口下到离地一拳', '推起时把地面推开，不耸肩'], err: PU_ERR, anim: pushup('knee') },
+    pu_knee: { name: '跪姿俯卧撑（俯卧撑板）', cat: '胸肩', level: 1, mus: PU_MUS,
+      cues: ['把手插在板子的胸部位置（比肩略宽），握住把手', '从膝盖到头成一条直线，手肘和身体约 45°', '胸口下到比把手略低再推起，不耸肩'], err: PU_ERR, anim: pushup('knee', false, true) },
     pu_bed: { name: '上斜俯卧撑（床沿）', cat: '胸肩', level: 2, mus: PU_MUS,
       cues: ['床靠墙放稳，双手撑在床沿', '脚尖着地，从脚跟到头一条直线', '胸口碰到床沿再推起'], err: PU_ERR, anim: pushup('bed') },
     pu_low: { name: '低位上斜俯卧撑（矮凳）', cat: '胸肩', level: 3, mus: PU_MUS,
       cues: ['用稳固的矮凳、台阶或沙发座（约 25–30cm）', '身体一条直线，胸口碰到凳面', '比床沿难，是过渡到地面的最后一级'], err: PU_ERR, anim: pushup('low') },
-    pu_std: { name: '标准俯卧撑', cat: '胸肩', level: 4, mus: PU_MUS,
-      cues: ['手在肩膀正下方略宽，脚尖着地', '收紧臀部和腹部，下放到胸口离地一拳', '做不了完整次数时，用 3–5 秒慢慢下放，再跪姿推起'], err: PU_ERR, anim: pushup('std') },
+    pu_std: { name: '标准俯卧撑（俯卧撑板）', cat: '胸肩', level: 4, mus: PU_MUS,
+      cues: ['把手插在胸部位置，脚尖着地，收紧臀部和腹部', '胸口下到比把手略低，身体始终一条直线', '做不了完整次数时，用 3–5 秒慢慢下放，再跪姿推起'], err: PU_ERR, anim: pushup('std', false, true) },
     floorpress: {
       name: '哑铃地板卧推', cat: '胸肩', mus: '胸大肌、肱三头肌、三角肌前束',
       cues: ['躺在垫子上屈膝踩地，哑铃在胸部正上方', '慢慢下放到上臂轻触地面，停 1 秒', '推起时哑铃略向内靠，不互相撞'],
